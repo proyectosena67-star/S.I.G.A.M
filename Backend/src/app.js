@@ -2,9 +2,9 @@ import express from 'express';
 import cors from 'cors';
 
 // Importación de rutas modulares
-import authRoutes from './routes/auth.routes.js';
-import pacienteRoutes from './routes/paciente.routes.js';
-import citaRoutes from './routes/cita.routes.js';
+import authRoutes from '../../Backend/src/routes/auth.routes.js';
+import pacienteRoutes from '../../Backend/src/routes/paciente.routes.js';
+import citaRoutes from '../../Backend/src/routes/cita.routes.js';
 
 const app = express();
 

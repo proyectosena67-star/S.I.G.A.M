@@ -1,4 +1,4 @@
-import pool from '../config/db.js';
+import pool from '../../../Backend/config/db.js';
 
 export const crearCitaService = async (datosCita) => {
   const {

@@ -37,7 +37,7 @@ export const loginService = async (correo, password) => {
       correo: user.correo,
       rol: user.nombre_rol
     },
-    process.env.JWT_SECRET || 'super_secreto_sigap_2026_key',
+    process.env.JWT_SECRET || 'super_secreto_sigam_2026_key',
     { expiresIn: process.env.JWT_EXPIRES_IN || '8h' }
   );
 
