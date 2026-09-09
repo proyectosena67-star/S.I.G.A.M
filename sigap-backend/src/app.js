@@ -1,17 +1,18 @@
 import express from 'express';
 import cors from 'cors';
 
-// Importación de Rutas Modulares
+// Importación de rutas modulares
 import authRoutes from './routes/auth.routes.js';
 import pacienteRoutes from './routes/paciente.routes.js';
+import citaRoutes from './routes/cita.routes.js';
 
 const app = express();
 
-// Middlewares Globales
+// Middlewares globales
 app.use(cors());
 app.use(express.json());
 
-// Endpoint de Verificación de Salud del Servidor
+// Ruta de verificación de estado del servidor (Health check)
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'OK',
@@ -20,11 +21,12 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Registrar Enrutadores de la API
+// Registro de enrutadores principales
 app.use('/api/auth', authRoutes);
 app.use('/api/pacientes', pacienteRoutes);
+app.use('/api/citas', citaRoutes);
 
-// Manejo de Rutas No Encontradas (404)
+// Manejo de endpoints no encontrados (404)
 app.use((req, res) => {
   res.status(404).json({
     ok: false,
