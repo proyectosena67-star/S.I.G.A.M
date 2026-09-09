@@ -1,5 +1,5 @@
 {
-  "name": "sigap-backend",
+  "name": "Backend",
   "version": "1.0.0",
   "description": "Backend para el Sistema de Gestión Clínica y Facturación SIGAP",
   "main": "src/server.js",
