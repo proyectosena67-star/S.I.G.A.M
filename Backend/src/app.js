@@ -1,10 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 
-// Importación de rutas modulares
-import authRoutes from '../../Backend/src/routes/auth.routes.js';
-import pacienteRoutes from '../../Backend/src/routes/paciente.routes.js';
-import citaRoutes from '../../Backend/src/routes/cita.routes.js';
+import authRoutes from './routes/auth.routes.js';
+import citaRoutes from './routes/cita.routes.js';
+import pacienteRoutes from './routes/paciente.routes.js';
 
 const app = express();
 
@@ -12,26 +11,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Ruta de verificación de estado del servidor (Health check)
-app.get('/api/health', (req, res) => {
-  res.status(200).json({
-    status: 'OK',
-    message: 'API SIGAP funcionando correctamente',
-    timestamp: new Date().toISOString()
-  });
-});
-
-// Registro de enrutadores principales
+// Endpoints principales
 app.use('/api/auth', authRoutes);
-app.use('/api/pacientes', pacienteRoutes);
 app.use('/api/citas', citaRoutes);
-
-// Manejo de endpoints no encontrados (404)
-app.use((req, res) => {
-  res.status(404).json({
-    ok: false,
-    message: 'La ruta o endpoint solicitado no existe en el servidor SIGAP'
-  });
-});
+app.use('/api/pacientes', pacienteRoutes);
 
 export default app;

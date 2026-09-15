@@ -1,40 +1,32 @@
-import { crearPacienteService, obtenerPacientesService } from '../services/paciente.service.js';
+import { PacienteService } from '../services/paciente.service.js';
 
-export const registrarPaciente = async (req, res) => {
+// Obtener todos los pacientes
+export const getPacientes = async (req, res) => {
   try {
-    const paciente = await crearPacienteService(req.body);
-    res.status(201).json({
-      ok: true,
-      message: 'Paciente registrado correctamente',
-      data: paciente,
-    });
+    const pacientes = await PacienteService.obtenerTodos();
+    res.json(pacientes);
   } catch (error) {
-    if (error.code === '23505') {
-      return res.status(400).json({
-        ok: false,
-        message: 'Ya existe un paciente con este número de documento',
-      });
-    }
-    res.status(500).json({
-      ok: false,
-      message: 'Error al registrar el paciente',
-      error: error.message,
-    });
+    res.status(500).json({ error: error.message });
   }
 };
 
-export const listarPacientes = async (req, res) => {
+// Obtener un paciente por ID
+export const getPacienteById = async (req, res) => {
   try {
-    const pacientes = await obtenerPacientesService();
-    res.status(200).json({
-      ok: true,
-      data: pacientes,
-    });
+    const { id } = req.params;
+    const paciente = await PacienteService.obtenerPorId(id);
+    res.json(paciente);
   } catch (error) {
-    res.status(500).json({
-      ok: false,
-      message: 'Error al obtener la lista de pacientes',
-      error: error.message,
-    });
+    res.status(404).json({ error: error.message });
+  }
+};
+
+// Registrar un nuevo paciente
+export const createPaciente = async (req, res) => {
+  try {
+    const nuevoPaciente = await PacienteService.registrarPaciente(req.body);
+    res.status(201).json(nuevoPaciente);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 };

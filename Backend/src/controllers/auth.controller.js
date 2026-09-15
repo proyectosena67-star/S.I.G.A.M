@@ -1,50 +1,22 @@
-import { loginService } from '../services/auth.service.js';
+import { AuthService } from '../services/auth.service.js';
 
+// Iniciar sesión
 export const login = async (req, res) => {
   try {
-    const { correo, password } = req.body;
-
-    if (!correo || !password) {
-      return res.status(400).json({
-        ok: false,
-        message: 'Por favor ingrese usuario y contraseña',
-      });
-    }
-
-    const resultado = await loginService(correo, password);
-
-    if (!resultado) {
-      return res.status(401).json({
-        ok: false,
-        message: 'Usuario o contraseña incorrectos',
-      });
-    }
-
-    res.status(200).json({
-      ok: true,
-      message: 'Inicio de sesión exitoso',
-      data: resultado,
-    });
+    const { username, password } = req.body;
+    const resultado = await AuthService.login(username, password);
+    res.json(resultado);
   } catch (error) {
-    res.status(500).json({
-      ok: false,
-      message: 'Error en el servidor al autenticar',
-      error: error.message,
-    });
+    res.status(401).json({ error: error.message });
   }
 };
 
-export const obtenerPerfil = async (req, res) => {
+// Registro de usuario
+export const registro = async (req, res) => {
   try {
-    // req.usuario viene asignado desde el middleware verificarToken
-    res.status(200).json({
-      ok: true,
-      data: req.usuario,
-    });
+    const nuevoUsuario = await AuthService.registrar(req.body);
+    res.status(201).json(nuevoUsuario);
   } catch (error) {
-    res.status(500).json({
-      ok: false,
-      message: 'Error al obtener el perfil del usuario',
-    });
+    res.status(400).json({ error: error.message });
   }
 };

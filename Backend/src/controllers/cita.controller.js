@@ -1,44 +1,21 @@
-import { crearCitaService, obtenerCitasService } from '../services/cita.service.js';
+import { CitaService } from '../services/cita.service.js';
 
-export const crearCita = async (req, res) => {
+// Obtener todas las citas
+export const getCitas = async (req, res) => {
   try {
-    const { id_paciente, fecha_hora } = req.body;
-
-    if (!id_paciente || !fecha_hora) {
-      return res.status(400).json({
-        ok: false,
-        message: 'Los campos id_paciente y fecha_hora son obligatorios'
-      });
-    }
-
-    const nuevaCita = await crearCitaService(req.body);
-
-    res.status(201).json({
-      ok: true,
-      message: 'Cita médica agendada correctamente',
-      data: nuevaCita
-    });
+    const citas = await CitaService.obtenerCitas();
+    res.json(citas);
   } catch (error) {
-    res.status(500).json({
-      ok: false,
-      message: 'Error al agendar la cita médica',
-      error: error.message
-    });
+    res.status(500).json({ error: error.message });
   }
 };
 
-export const obtenerCitas = async (req, res) => {
+// Agendar una nueva cita
+export const createCita = async (req, res) => {
   try {
-    const citas = await obtenerCitasService();
-    res.status(200).json({
-      ok: true,
-      data: citas
-    });
+    const nuevaCita = await CitaService.crearCita(req.body);
+    res.status(201).json(nuevaCita);
   } catch (error) {
-    res.status(500).json({
-      ok: false,
-      message: 'Error al obtener la lista de citas',
-      error: error.message
-    });
+    res.status(400).json({ error: error.message });
   }
 };

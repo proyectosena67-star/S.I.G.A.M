@@ -1,54 +1,39 @@
-import pool from '../config/db.js';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { AuthRepository } from '../repositories/auth.repository.js';
 
-export const loginService = async (correo, password) => {
-  // Buscar usuario por correo e incluir su rol
-  const queryText = `
-    SELECT u.id_usuario, u.correo, u.password_hash, u.nombres, u.apellidos, u.estado, r.nombre AS nombre_rol
-    FROM usuarios u
-    INNER JOIN roles r ON u.id_rol = r.id_rol
-    WHERE u.correo = $1
-  `;
-  
-  const result = await pool.query(queryText, [correo]);
-
-  if (result.rows.length === 0) {
-    throw new Error('Usuario o contraseña incorrectos');
-  }
-
-  const user = result.rows[0];
-
-  if (user.estado !== 'Activo') {
-    throw new Error('El usuario se encuentra inactivo. Contacte al administrador.');
-  }
-
-  // Verificar la contraseña con bcrypt
-  const isValidPassword = await bcrypt.compare(password, user.password_hash);
-
-  if (!isValidPassword) {
-    throw new Error('Usuario o contraseña incorrectos');
-  }
-
-  // Generar Token JWT
-  const token = jwt.sign(
-    {
-      id_usuario: user.id_usuario,
-      correo: user.correo,
-      rol: user.nombre_rol
-    },
-    process.env.JWT_SECRET || 'super_secreto_sigam_2026_key',
-    { expiresIn: process.env.JWT_EXPIRES_IN || '8h' }
-  );
-
-  return {
-    token,
-    user: {
-      id_usuario: user.id_usuario,
-      correo: user.correo,
-      nombres: user.nombres,
-      apellidos: user.apellidos,
-      rol: user.nombre_rol
+export const AuthService = {
+  async login(username, password) {
+    const usuario = await AuthRepository.findByUsername(username);
+    if (!usuario) {
+      throw new Error('Credenciales inválidas.');
     }
-  };
+
+    const passwordValido = await bcrypt.compare(password, usuario.password);
+    if (!passwordValido) {
+      throw new Error('Credenciales inválidas.');
+    }
+
+    const token = jwt.sign(
+      { id_usuario: usuario.id, rol: usuario.rol },
+      process.env.JWT_SECRET || 'secret_key',
+      { expiresIn: '8h' }
+    );
+
+    return { 
+      token, 
+      usuario: usuario.toPublicJSON() 
+    };
+  },
+
+  async registrar(datos) {
+    const existe = await AuthRepository.findByUsername(datos.username);
+    if (existe) {
+      throw new Error('El usuario o correo ya se encuentra registrado.');
+    }
+
+    const passwordHashed = await bcrypt.hash(datos.password, 10);
+    const nuevoUsuario = await AuthRepository.create({ ...datos, password: passwordHashed });
+    return nuevoUsuario.toPublicJSON();
+  }
 };
