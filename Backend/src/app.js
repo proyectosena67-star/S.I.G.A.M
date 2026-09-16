@@ -4,6 +4,7 @@ import cors from 'cors';
 import authRoutes from './routes/auth.routes.js';
 import citaRoutes from './routes/cita.routes.js';
 import pacienteRoutes from './routes/paciente.routes.js';
+import medicamentoRoutes from './routes/medicamento.routes.js';
 import historialRoutes from './routes/historial.routes.js';
 import enfermeriaRoutes from './routes/enfermeria.routes.js';
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/citas', citaRoutes);
 app.use('/api/pacientes', pacienteRoutes);
+app.use('/api/medicamentos', medicamentoRoutes);
 app.use('/api/historial', historialRoutes);
 app.use('/api/enfermeria', enfermeriaRoutes);
 
