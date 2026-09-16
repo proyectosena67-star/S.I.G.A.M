@@ -34,3 +34,29 @@ export const permitirRoles = (...rolesPermitidos) => {
     next();
   };
 };
+
+// Middleware para validar datos en la petición de Login
+export const validarLogin = (req, res, next) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({ 
+      error: 'Por favor, proporcione usuario (o email) y contraseña.' 
+    });
+  }
+
+  next();
+};
+
+// Middleware para validar datos en la petición de Registro
+export const validarRegistro = (req, res, next) => {
+  const { username, email, password } = req.body;
+
+  if (!username || !email || !password) {
+    return res.status(400).json({ 
+      error: 'Los campos username, email y password son obligatorios.' 
+    });
+  }
+
+  next();
+};
