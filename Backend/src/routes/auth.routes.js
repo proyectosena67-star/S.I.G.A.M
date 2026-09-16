@@ -8,9 +8,9 @@ import {
 const router = Router();
 
 // POST /api/auth/login - Iniciar sesión y obtener Token JWT
-router.post('/login', [validarLogin], login);
+router.post('/login', validarLogin, login);
 
 // POST /api/auth/registro - Registrar un nuevo usuario
-router.post('/registro', [validarRegistro], registro);
+router.post('/registro', validarRegistro, registro);
 
 export default router;
