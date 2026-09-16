@@ -5,9 +5,15 @@
   "main": "src/server.js",
   "type": "module",
   "scripts": {
+<<<<<<< HEAD:package.json
+  "start": "node ./src/server.js",
+  "dev": "nodemon ./src/server.js"
+},
+=======
     "start": "node src/server.js",
     "dev": "node --watch src/server.js"
   },
+>>>>>>> main:Backend/package.json
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
