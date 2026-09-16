@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 
 const seedDatabase = async () => {
   try {
-    console.log('🌱 Actualizando credenciales en PostgreSQL...');
+    console.log(' Actualizando credenciales en PostgreSQL...');
 
     // 1. Verificar/Crear Roles
     const rolesQuery = `
@@ -47,10 +47,10 @@ const seedDatabase = async () => {
       'Activo'
     ]);
 
-    console.log('✅ Credenciales de Administrador actualizadas con éxito');
+    console.log(' Credenciales de Administrador actualizadas con éxito');
     process.exit(0);
   } catch (error) {
-    console.error('❌ Error ejecutando el seed:', error.message);
+    console.error(' Error ejecutando el seed:', error.message);
     process.exit(1);
   }
 };
