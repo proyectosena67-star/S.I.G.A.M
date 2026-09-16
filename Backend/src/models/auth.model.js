@@ -1,38 +1,37 @@
 export class Usuario {
-  constructor({ 
-    id_usuario, 
-    username, 
-    email, 
-    password, 
-    id_rol, 
-    rol_nombre, 
-    estado,
-    fecha_creacion 
-  }) {
-    this.id = id_usuario;
-    this.username = username;
-    this.email = email;
-    this.password = password; // Se mantiene en la instancia solo para verificación en la capa de AuthService
-    this.idRol = id_rol;
-    this.rol = rol_nombre || null;
-    this.estado = estado ?? true;
-    this.fechaCreacion = fecha_creacion || new Date();
+  constructor(data) {
+    this.id_usuario = data.id_usuario;
+    this.id_rol = data.id_rol;
+    this.rol_nombre = data.rol_nombre || null;
+    this.tipo_documento = data.tipo_documento;
+    this.documento = data.documento;
+    this.nombres = data.nombres;
+    this.apellidos = data.apellidos;
+    this.correo = data.correo;
+    this.password_hash = data.password_hash; // Almacena texto plano
+    this.telefono = data.telefono || null;
+    this.registro_medico_rethus = data.registro_medico_rethus || null;
+    this.especialidad = data.especialidad || null;
+    this.estado = data.estado || 'Activo';
+    this.fecha_creacion = data.fecha_creacion;
   }
 
-  // Comprobar si la cuenta de usuario está activa
-  isActivo() {
-    return Boolean(this.estado);
-  }
-
-  // Formatear respuesta segura para el frontend (sin contraseña)
+  // Método para retornar los datos seguros al Frontend (excluyendo la contraseña)
   toPublicJSON() {
     return {
-      id: this.id,
-      username: this.username,
-      email: this.email,
-      idRol: this.idRol,
-      rol: this.rol,
-      estado: this.estado
+      id_usuario: this.id_usuario,
+      id_rol: this.id_rol,
+      rol_nombre: this.rol_nombre,
+      tipo_documento: this.tipo_documento,
+      documento: this.documento,
+      nombres: this.nombres,
+      apellidos: this.apellidos,
+      correo: this.correo,
+      telefono: this.telefono,
+      registro_medico_rethus: this.registro_medico_rethus,
+      especialidad: this.especialidad,
+      estado: this.estado,
+      fecha_creacion: this.fecha_creacion
     };
   }
 }

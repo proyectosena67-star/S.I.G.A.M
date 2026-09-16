@@ -4,11 +4,9 @@ import cors from 'cors';
 import authRoutes from './routes/auth.routes.js';
 import citaRoutes from './routes/cita.routes.js';
 import pacienteRoutes from './routes/paciente.routes.js';
-<<<<<<< HEAD
 import medicamentoRoutes from './routes/medicamento.routes.js';
-=======
 import historialRoutes from './routes/historial.routes.js';
->>>>>>> main
+import enfermeriaRoutes from './routes/enfermeria.routes.js';
 
 const app = express();
 
@@ -20,15 +18,13 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/citas', citaRoutes);
 app.use('/api/pacientes', pacienteRoutes);
-<<<<<<< HEAD
 app.use('/api/medicamentos', medicamentoRoutes);
-=======
 app.use('/api/historial', historialRoutes);
+app.use('/api/enfermeria', enfermeriaRoutes);
 
 // Manejador global para rutas no encontradas (404)
 app.use((req, res) => {
   res.status(404).json({ error: 'Ruta no encontrada' });
 });
->>>>>>> main
 
 export default app;
