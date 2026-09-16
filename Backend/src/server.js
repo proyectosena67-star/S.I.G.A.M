@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 4000;
 
 // Escuchar peticiones HTTP en Express
 app.listen(PORT, () => {
-  console.log(` Servidor SIGAP ejecutándose en http://localhost:${PORT}`);
+  console.log(` Servidor SIGAM ejecutándose en http://localhost:${PORT}`);
 });
 
 // Probar la conexión a la base de datos de fondo
